@@ -3,7 +3,7 @@ import { Link, usePage, router } from "@inertiajs/react";
 import axios from "axios";
 
 export default function Navbar() {
-    const { auth } = usePage().props;
+    const { auth, dataCarts } = usePage().props;
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false); // For mobile menu toggle
     const [products, setProducts] = useState([]);
@@ -190,7 +190,7 @@ export default function Navbar() {
                                         )}
                                     </div>
 
-                                    <Link href="/cart" className="relative">
+                                    <Link href="/carts" className="relative">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width="1.5em"
@@ -201,8 +201,22 @@ export default function Navbar() {
                                         >
                                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                                         </svg>
-                                        <div className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full">
-                                            3
+                                        <div className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
+                                            {dataCarts ? (
+                                                <span
+                                                    className="px-2 py-1 text-xs font-bold text-white bg-yellow-400 rounded-full shadow"
+                                                    id="count-cart"
+                                                >
+                                                    {dataCarts.total}
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className="px-2 py-1 text-xs font-bold text-white bg-yellow-400 rounded-full shadow"
+                                                    id="count-cart"
+                                                >
+                                                    0
+                                                </span>
+                                            )}
                                         </div>
                                     </Link>
                                 </>
@@ -322,7 +336,7 @@ export default function Navbar() {
                                         </div>
                                     )}
                                 </div>
-                                <Link href="/cart" className="relative">
+                                <Link href="/carts" className="relative">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="1.5em"
@@ -333,8 +347,22 @@ export default function Navbar() {
                                     >
                                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
                                     </svg>
-                                    <div className="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-xs text-white bg-red-500 rounded-full">
-                                        3
+                                    <div className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white bg-red-500 rounded-full">
+                                        {dataCarts ? (
+                                            <span
+                                                className="px-2 py-1 text-xs font-bold text-white bg-yellow-400 rounded-full shadow"
+                                                id="count-cart"
+                                            >
+                                                {dataCarts.total}
+                                            </span>
+                                        ) : (
+                                            <span
+                                                className="px-2 py-1 text-xs font-bold text-white bg-yellow-400 rounded-full shadow"
+                                                id="count-cart"
+                                            >
+                                                0
+                                            </span>
+                                        )}
                                     </div>
                                 </Link>
                             </>

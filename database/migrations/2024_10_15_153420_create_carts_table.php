@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
             $table->string('product_image');
-            $table->string('variation');
+            $table->string('size');
             $table->bigInteger('price');
             $table->integer('qty');
             $table->timestamps();

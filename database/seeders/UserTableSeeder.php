@@ -21,16 +21,35 @@ class UserTableSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
+        //create user
+        $userCuss = User::create([
+            'name' => 'customer',
+            'email' => 'customer@gmail.com',
+            'password' => bcrypt('customer'),
+        ]);
+
         //get all permissions
         $permissions = Permission::all();
+
+        // Mendapatkan permission berdasarkan ID
+        $permissionsCuss = Permission::whereIn('id', [1, 30, 31])->get();
 
         //get role admin
         $role = Role::find(1);
 
+        //get role admin
+        $roleCuss = Role::find(2);
+
         //assign permission to role
         $role->syncPermissions($permissions);
 
+        //assign permission to role
+        $roleCuss->syncPermissions($permissionsCuss);
+
         //assign role to user
         $user->assignRole($role);
+
+        //assign role to user
+        $userCuss->assignRole($roleCuss);
     }
 }

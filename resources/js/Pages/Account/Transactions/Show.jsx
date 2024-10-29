@@ -86,42 +86,20 @@ export default function TransactionShow() {
                                     </tr>
                                     <tr className="border-b">
                                         <td className="py-2 font-semibold">
-                                            COURIER / SERVICE / COST
+                                            NAME STORE
                                         </td>
                                         <td className="py-2">:</td>
                                         <td className="py-2">
-                                            {transaction.courier_name} /{" "}
-                                            {transaction.courier_service} / Rp.{" "}
-                                            {FormatPrice(
-                                                transaction.courier_cost
+                                            {transaction?.transaction_details?.map(
+                                                (detailTrans, index) => (
+                                                    <li key={index}>
+                                                        {
+                                                            detailTrans?.product
+                                                                ?.store?.name
+                                                        }
+                                                    </li>
+                                                )
                                             )}
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td className="py-2 font-semibold">
-                                            CITY
-                                        </td>
-                                        <td className="py-2">:</td>
-                                        <td className="py-2">
-                                            {transaction.city.name}
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td className="py-2 font-semibold">
-                                            PROVINCE
-                                        </td>
-                                        <td className="py-2">:</td>
-                                        <td className="py-2">
-                                            {transaction.province.name}
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b">
-                                        <td className="py-2 font-semibold">
-                                            ADDRESS
-                                        </td>
-                                        <td className="py-2">:</td>
-                                        <td className="py-2 break-words">
-                                            {transaction.address}
                                         </td>
                                     </tr>
                                     <tr className="border-b">
@@ -186,7 +164,12 @@ export default function TransactionShow() {
                                     >
                                         <div className="col-span-12 sm:col-span-3">
                                             <img
-                                                src={detail.product_image}
+                                                src={
+                                                    detail.product_image ===
+                                                    "image.png"
+                                                        ? "/Image/image.png" // Sesuaikan dengan path default yang benar
+                                                        : `/${detail.product_image}` // Pastikan path ini sesuai dengan tempat penyimpanan gambar
+                                                }
                                                 className="w-full h-auto rounded-lg"
                                                 alt={detail.product.title}
                                             />
@@ -208,19 +191,6 @@ export default function TransactionShow() {
                                                         Size:{" "}
                                                         <strong>
                                                             {detail.size}
-                                                        </strong>
-                                                    </p>
-                                                </div>
-                                                <div className="flex items-center space-x-2">
-                                                    <div>Color: </div>
-                                                    <img
-                                                        src={detail.color_image}
-                                                        alt={detail.color}
-                                                        className="w-6 h-6 border rounded-full"
-                                                    />
-                                                    <p className="ml-2">
-                                                        <strong>
-                                                            {detail.color}
                                                         </strong>
                                                     </p>
                                                 </div>
