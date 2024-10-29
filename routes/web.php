@@ -77,8 +77,8 @@ Route::prefix('account')->group(function () {
         Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
             ->middleware('permission:transactions.show');
 
-        Route::get('/transaction/export', [App\Http\Controllers\Account\TransactionController::class, 'exportPage'])->name('transactions.exportPage');
-        Route::post('/transaction/export', [App\Http\Controllers\Account\TransactionController::class, 'export'])->name('transactions.export');
+        Route::get('/transaction/export', [App\Http\Controllers\Account\TransactionController::class, 'exportPage'])->name('transactions.exportPage')->middleware('permission:transactions.exportPage');
+        Route::post('/transaction/export', [App\Http\Controllers\Account\TransactionController::class, 'export'])->name('transactions.export')->middleware('permission:transactions.export');;
     });
 });
 

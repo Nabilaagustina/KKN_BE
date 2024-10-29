@@ -1,20 +1,20 @@
-//import React
+// Import React
 import React from "react";
 
-//import layout web
+// Import layout web
 import LayoutWeb from "../../../Layouts/Web";
 
-//import Head, usePage, Link
+// Import Head, usePage, Link
 import { Head, usePage, Link } from "@inertiajs/react";
 
-//import component delete
+// Import component delete
 import Delete from "../../../Shared/Delete";
 
-//import formatPrice
+// Import formatPrice utility
 import FormatPrice from "../../../Utils/FormatPrice";
 
 export default function CartIndex() {
-    //destruct props "carts"
+    // Destructure props "dataCarts" and "carts"
     const { dataCarts, carts } = usePage().props;
 
     return (
@@ -42,8 +42,14 @@ export default function CartIndex() {
                                                                     <div className="w-full md:w-1/4">
                                                                         <img
                                                                             src={
-                                                                                cart.product_image
-                                                                            }
+                                                                                cart.product_image ||
+                                                                                "Image/image.png"
+                                                                            } // Fallback to 'Image/image.png'
+                                                                            alt={
+                                                                                cart
+                                                                                    .product
+                                                                                    .title
+                                                                            } // Added alt attribute for accessibility
                                                                             className="object-cover w-full h-auto rounded-lg"
                                                                         />
                                                                     </div>
@@ -80,9 +86,7 @@ export default function CartIndex() {
 
                                                                             <div className="mt-4">
                                                                                 <Delete
-                                                                                    URL={
-                                                                                        "/carts"
-                                                                                    }
+                                                                                    URL="/carts"
                                                                                     id={
                                                                                         cart.id
                                                                                     }

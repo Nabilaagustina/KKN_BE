@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Head, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 import LayoutAccount from "../../../Layouts/Account";
 
 export default function TransactionExport() {
-    const { stores, csrf_token } = usePage().props; // Get CSRF token from props
+    const { stores } = usePage().props; // Get stores from props
+    const csrf_token = document.head.querySelector(
+        'meta[name="csrf-token"]'
+    ).content; // Get CSRF token
     const [storeId, setStoreId] = useState("");
 
     const handleExport = async (e) => {
@@ -14,28 +17,29 @@ export default function TransactionExport() {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRF-Token": csrf_token, // Use the CSRF token from props
+                    "X-CSRF-Token": csrf_token, // Use the CSRF token
                 },
                 body: JSON.stringify({ store_id: storeId }),
             });
 
-            if (!response.ok) {
-                console.error("Failed to export data:", response.statusText);
-                return;
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.style.display = "none";
+                a.href = url;
+                a.download = `transactions_store_${storeId}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } else {
+                const errorData = await response.json();
+                console.error("Failed to export data:", errorData);
+                alert(errorData.info || "An error occurred during export.");
             }
-
-            // Create a downloadable link from the response
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.style.display = "none";
-            a.href = url;
-            a.download = `transactions_store_${storeId}.csv`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url); // Clean up
         } catch (error) {
             console.error("Error exporting data:", error);
+            alert("An unexpected error occurred. Please try again.");
         }
     };
 
