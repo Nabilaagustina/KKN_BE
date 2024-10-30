@@ -11,17 +11,22 @@ export default function TransactionExport() {
 
     const handleExport = async (e) => {
         e.preventDefault();
-
+    
+        if (!csrf_token) {
+            alert("CSRF token is missing. Please refresh the page and try again.");
+            return;
+        }
+    
         try {
             const response = await fetch("/account/transaction/export", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-CSRF-Token": csrf_token, // Use the CSRF token
+                    "X-CSRF-Token": csrf_token,
                 },
                 body: JSON.stringify({ store_id: storeId }),
             });
-
+    
             if (response.ok) {
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
@@ -33,7 +38,16 @@ export default function TransactionExport() {
                 a.click();
                 window.URL.revokeObjectURL(url);
             } else {
-                const errorData = await response.json();
+                const contentType = response.headers.get("content-type");
+                let errorData;
+    
+                // Attempt to parse JSON if the content type is application/json
+                if (contentType && contentType.includes("application/json")) {
+                    errorData = await response.json();
+                } else {
+                    errorData = { info: "Unexpected error occurred." };
+                }
+    
                 console.error("Failed to export data:", errorData);
                 alert(errorData.info || "An error occurred during export.");
             }
@@ -41,7 +55,7 @@ export default function TransactionExport() {
             console.error("Error exporting data:", error);
             alert("An unexpected error occurred. Please try again.");
         }
-    };
+    };    
 
     return (
         <LayoutAccount>

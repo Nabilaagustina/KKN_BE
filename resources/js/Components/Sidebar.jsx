@@ -73,6 +73,19 @@ export default function Sidebar() {
                         Products
                     </Link>
                 )}
+                {hasAnyPermission(["transactions.exportPage"]) && (
+                    <Link
+                        href="/account/transaction/export"
+                        className={`flex items-center px-4 py-2 text-white rounded-lg transition-colors duration-200 hover:bg-gray-700 hover:text-white ${
+                            url.startsWith("/transaction/export")
+                                ? "bg-gray-700 font-semibold"
+                                : ""
+                        }`}
+                    >
+                        <i className="mr-3 fa fa-shopping-bag"></i>
+                        Eksport Transactions
+                    </Link>
+                )}
                 {hasAnyPermission(["transactions.index"]) && (
                     <Link
                         href="/account/transactions"

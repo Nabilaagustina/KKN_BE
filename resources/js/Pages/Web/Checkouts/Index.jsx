@@ -28,53 +28,51 @@ export default function CheckoutIndex() {
             </Head>
             <LayoutWeb>
                 <div className="container mt-20 mb-5 md:mt-80">
-                    <div className="fade-in">
-                        <div className="flex justify-center">
-                            <div className="w-full max-w-md">
-                                <div className="bg-white border-0 shadow-sm rounded-3">
-                                    <div className="p-3 bg-gray-100 rounded-t-3">
-                                        <i className="fa fa-shopping-cart"></i>{" "}
-                                        Shipping Information
-                                    </div>
+                    <div className="flex justify-center">
+                        <div className="w-full max-w-md">
+                            <div className="bg-white border-0 shadow-sm rounded-3">
+                                <div className="p-3 bg-gray-100 rounded-t-3">
+                                    <i className="fa fa-shopping-cart"></i>{" "}
+                                    Shipping Information
                                 </div>
-
-                                <div className="mt-3 mb-3 bg-white border-0 shadow-sm rounded-3">
-                                    <div className="p-4">
-                                        <div className="table-responsive">
-                                            <table className="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td
-                                                            style={{
-                                                                width: "25%",
-                                                            }}
-                                                        >
-                                                            Total Orders
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "1%",
-                                                            }}
-                                                        >
-                                                            :
-                                                        </td>
-                                                        <td>
-                                                            <strong>
-                                                                Rp.{" "}
-                                                                {FormatPrice(
-                                                                    dataCarts.price
-                                                                )}
-                                                            </strong>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <StoreCheckout grandTotal={dataCarts.price} />
                             </div>
+
+                            <div className="mt-3 mb-3 bg-white border-0 shadow-sm rounded-3">
+                                <div className="p-4">
+                                    <div className="table-responsive">
+                                        <table className="table">
+                                            <tbody>
+                                                <tr>
+                                                    <td
+                                                        style={{
+                                                            width: "25%",
+                                                        }}
+                                                    >
+                                                        Total Orders
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "1%",
+                                                        }}
+                                                    >
+                                                        :
+                                                    </td>
+                                                    <td>
+                                                        <strong>
+                                                            Rp.{" "}
+                                                            {FormatPrice(
+                                                                dataCarts.price
+                                                            )}
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <StoreCheckout grandTotal={dataCarts.price} />
                         </div>
                     </div>
                 </div>

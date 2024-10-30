@@ -51,7 +51,7 @@ class CheckoutController extends Controller
             $productDetails = "Pembayaran untuk Invoice : " . $merchantOrderId;
             $customerVaName = $request->name;
             $callbackUrl = config('app.url') . '/callback'; // url for callback
-            $returnUrl = config('app.url') . '/account/transactions/' . $merchantOrderId; // url for redirect
+            $returnUrl = config('app.url') . '/account/transactions'; // url for redirect
             $expiryPeriod = 1440; // set the expired time in minutes
 
             //create transaction
@@ -133,6 +133,6 @@ class CheckoutController extends Controller
             }
         });
 
-        return redirect()->route('account.transactions.show', $this->response);
+        return redirect()->route('account.transactions.index');
     }
 }

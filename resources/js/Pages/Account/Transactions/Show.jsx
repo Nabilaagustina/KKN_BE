@@ -168,7 +168,7 @@ export default function TransactionShow() {
                                                     detail.product_image ===
                                                     "image.png"
                                                         ? "/Image/image.png" // Sesuaikan dengan path default yang benar
-                                                        : `/${detail.product_image}` // Pastikan path ini sesuai dengan tempat penyimpanan gambar
+                                                        : `/products/${detail.product_image}` // Pastikan path ini sesuai dengan tempat penyimpanan gambar
                                                 }
                                                 className="w-full h-auto rounded-lg"
                                                 alt={detail.product.title}
