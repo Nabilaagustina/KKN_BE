@@ -34,7 +34,7 @@ export default function TransactionExport() {
                 const a = document.createElement("a");
                 a.style.display = "none";
                 a.href = url;
-                a.download = `transactions_store_${storeId}.csv`;
+                a.download = `transactions_store_${storeId}.csv`; // Memastikan penggunaan backtick
                 document.body.appendChild(a);
                 a.click();
                 a.remove();

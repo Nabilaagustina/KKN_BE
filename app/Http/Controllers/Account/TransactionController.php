@@ -81,24 +81,30 @@ class TransactionController extends Controller
 
     public function export(Request $request)
     {
-        // Get the store ID from the request
+        // Mendapatkan ID toko dari request
         $storeId = $request->input('store_id');
         if (is_null($storeId)) {
             return response()->json(['error' => 'Store ID is required.'], 400);
         }
 
-        // Fetch transactions related to the store
-        $transactions = Transaction::with('transactionDetails.product.store', 'user')
-            ->whereHas('transactionDetails.product.store', function ($query) use ($storeId) {
+        // Mengambil transaksi terkait dengan toko yang dipilih
+        $transactions = Transaction::whereHas('transactionDetails', function ($query) use ($storeId) {
+            $query->whereHas('product.store', function ($query) use ($storeId) {
                 $query->where('id', $storeId);
-            })
+            });
+        })
+            ->with(['transactionDetails' => function ($query) use ($storeId) {
+                $query->whereHas('product.store', function ($query) use ($storeId) {
+                    $query->where('id', $storeId);
+                });
+            }, 'transactionDetails.product.store', 'user'])
             ->get();
 
         if ($transactions->isEmpty()) {
             return response()->json(['info' => 'No transactions found for this store.'], 404);
         }
 
-        // Prepare CSV response
+        // Menyiapkan response CSV
         $filename = "transactions_store_{$storeId}.csv";
         $headers = [
             'Content-Type' => 'text/csv',
@@ -111,7 +117,8 @@ class TransactionController extends Controller
 
             foreach ($transactions as $transaction) {
                 foreach ($transaction->transactionDetails as $detail) {
-                    if ($detail->qty > 0) {
+                    // Memastikan hanya data dari toko yang diinginkan yang dieksport
+                    if ($detail->product->store->id == $transaction->transactionDetails->first()->product->store->id) {
                         fputcsv($file, [
                             $transaction->id,
                             $transaction->status,
