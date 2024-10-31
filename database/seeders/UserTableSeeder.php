@@ -17,15 +17,15 @@ class UserTableSeeder extends Seeder
         //create user
         $user = User::create([
             'name' => 'Administrator',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('password'),
+            'email' => 'umkmsemambungmakmur@gmail.com',
+            'password' => bcrypt('desabersamaumkm21'),
         ]);
 
         //create user
         $userCuss = User::create([
             'name' => 'customer',
-            'email' => 'customer@gmail.com',
-            'password' => bcrypt('customer'),
+            'email' => 'customerUmkmsemambungmakmur@gmail.com',
+            'password' => bcrypt('customerdesabersamaumkm21'),
         ]);
 
         //get all permissions

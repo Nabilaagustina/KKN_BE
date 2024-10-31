@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import LayoutAccount from "../../../Layouts/Account";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 export default function TransactionExport() {
     const { stores } = usePage().props; // Get stores from props
@@ -32,14 +33,28 @@ export default function TransactionExport() {
                 document.body.appendChild(a);
                 a.click();
                 window.URL.revokeObjectURL(url);
+
+                // Show success alert
+                Swal.fire(
+                    "Success!",
+                    "Data has been exported successfully.",
+                    "success"
+                );
             } else {
-                const errorData = await response.json();
-                console.error("Failed to export data:", errorData);
-                alert(errorData.info || "An error occurred during export.");
+                console.error("Failed to export data");
+                Swal.fire(
+                    "Error!",
+                    "An error occurred during export. Please try again.",
+                    "error"
+                );
             }
         } catch (error) {
             console.error("Error exporting data:", error);
-            alert("An unexpected error occurred. Please try again.");
+            Swal.fire(
+                "Error!",
+                "An unexpected error occurred. Please try again.",
+                "error"
+            );
         }
     };
 
