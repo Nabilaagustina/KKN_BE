@@ -1,22 +1,23 @@
 import React, { useState } from "react";
 import { usePage } from "@inertiajs/react";
 import LayoutAccount from "../../../Layouts/Account";
+import Swal from "sweetalert2";
 
 export default function TransactionExport() {
-    const { stores } = usePage().props; // Get stores from props
-    const csrf_token = document.head.querySelector(
+    const { stores } = usePage().props;
+    const csrf_token = document.querySelector(
         'meta[name="csrf-token"]'
-    ).content; // Get CSRF token
+    ).content;
     const [storeId, setStoreId] = useState("");
 
     const handleExport = async (e) => {
         e.preventDefault();
-    
-        if (!csrf_token) {
-            alert("CSRF token is missing. Please refresh the page and try again.");
+
+        if (!storeId) {
+            Swal.fire("Error!", "Please select a store to export.", "warning");
             return;
         }
-    
+
         try {
             const response = await fetch("/account/transaction/export", {
                 method: "POST",
@@ -26,7 +27,7 @@ export default function TransactionExport() {
                 },
                 body: JSON.stringify({ store_id: storeId }),
             });
-    
+
             if (response.ok) {
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);
@@ -36,26 +37,29 @@ export default function TransactionExport() {
                 a.download = `transactions_store_${storeId}.csv`;
                 document.body.appendChild(a);
                 a.click();
+                a.remove();
                 window.URL.revokeObjectURL(url);
+
+                Swal.fire(
+                    "Success!",
+                    "Data has been exported successfully.",
+                    "success"
+                );
             } else {
-                const contentType = response.headers.get("content-type");
-                let errorData;
-    
-                // Attempt to parse JSON if the content type is application/json
-                if (contentType && contentType.includes("application/json")) {
-                    errorData = await response.json();
-                } else {
-                    errorData = { info: "Unexpected error occurred." };
-                }
-    
-                console.error("Failed to export data:", errorData);
-                alert(errorData.info || "An error occurred during export.");
+                Swal.fire(
+                    "Error!",
+                    "Failed to export data. Please try again.",
+                    "error"
+                );
             }
         } catch (error) {
-            console.error("Error exporting data:", error);
-            alert("An unexpected error occurred. Please try again.");
+            Swal.fire(
+                "Error!",
+                "An unexpected error occurred. Please try again.",
+                "error"
+            );
         }
-    };    
+    };
 
     return (
         <LayoutAccount>
