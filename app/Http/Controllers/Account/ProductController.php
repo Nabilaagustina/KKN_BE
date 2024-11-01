@@ -113,7 +113,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         //get relation productImages with pagination
-        $product->setRelation('productImages', $product->productImages());
+        $product->setRelation('productImages', $product->productImages()->paginate(5));
 
         //return
         return inertia('Account/Products/Show', [

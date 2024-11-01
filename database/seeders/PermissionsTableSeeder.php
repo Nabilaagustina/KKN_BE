@@ -60,5 +60,7 @@ class PermissionsTableSeeder extends Seeder
         //permission transactions
         Permission::create(['name' => 'transactions.index', 'guard_name' => 'web']);
         Permission::create(['name' => 'transactions.show', 'guard_name' => 'web']);
+        Permission::create(['name' => 'transactions.exportPage', 'guard_name' => 'web']);
+        Permission::create(['name' => 'transactions.export', 'guard_name' => 'web']);
     }
 }

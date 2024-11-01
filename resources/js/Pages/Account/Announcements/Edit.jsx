@@ -12,27 +12,36 @@ import "react-quill/dist/quill.snow.css";
 export default function AnnouncementCreate() {
     const { errors, announcement } = usePage().props;
 
-    // State
-    const [title, setTitle] = useState(announcement.name);
-    const [description, setDescription] = useState(announcement.description);
+    // State with fallback values to ensure controlled inputs
+    const [title, setTitle] = useState(announcement?.title || "");
+    const [description, setDescription] = useState(
+        announcement?.description || ""
+    );
     const [image, setImage] = useState(null);
-    const [imagePreview, setImagePreview] = useState(null);
+    const [imagePreview, setImagePreview] = useState(
+        announcement?.image ? `/${announcement.image}` : null
+    );
 
+    // Synchronize state with the announcement props
     useEffect(() => {
-        setTitle(announcement.title);
-        setDescription(announcement.description);
-        setImagePreview(announcement.image ? `/${announcement.image}` : null);
+        if (announcement) {
+            setTitle(announcement.title || ""); // Ensure fallback to empty string
+            setDescription(announcement.description || "");
+            setImagePreview(
+                announcement.image ? `/${announcement.image}` : null
+            );
+        }
     }, [announcement]);
 
     // Method to reset the form
     const resetForm = () => {
-        setTitle(announcement.title);
-        setDescription(announcement.description);
+        setTitle(announcement?.title || ""); // Reset to fallback values
+        setDescription(announcement?.description || "");
         setImage(null);
-        setImagePreview(announcement.image ? `/${announcement.image}` : null); // Reset image preview
+        setImagePreview(announcement?.image ? `/${announcement.image}` : null);
     };
 
-    const updateannouncement = async (e) => {
+    const updateAnnouncement = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
@@ -107,7 +116,7 @@ export default function AnnouncementCreate() {
                                 </span>
                             </div>
                             <div className="p-6">
-                                <form onSubmit={updateannouncement}>
+                                <form onSubmit={updateAnnouncement}>
                                     <div className="mb-4">
                                         <label className="block text-sm font-semibold">
                                             Title
@@ -115,7 +124,7 @@ export default function AnnouncementCreate() {
                                         <input
                                             type="text"
                                             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring focus:ring-opacity-50"
-                                            value={title}
+                                            value={title} // Always controlled
                                             onChange={(e) =>
                                                 setTitle(e.target.value)
                                             }

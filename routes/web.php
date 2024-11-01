@@ -76,6 +76,9 @@ Route::prefix('account')->group(function () {
         //route transactions show
         Route::get('/transactions/{invoice}', [App\Http\Controllers\Account\TransactionController::class, 'show'])->name('account.transactions.show')
             ->middleware('permission:transactions.show');
+
+        Route::get('/transaction/export', [App\Http\Controllers\Account\TransactionController::class, 'exportPage'])->name('transactions.exportPage')->middleware('permission:transactions.exportPage');
+        Route::post('/transaction/export', [App\Http\Controllers\Account\TransactionController::class, 'export'])->name('transactions.export')->middleware('permission:transactions.export');;
     });
 });
 
@@ -138,3 +141,38 @@ Route::get('/products/{slug}', [\App\Http\Controllers\Web\ProductController::cla
  * route search
  */
 Route::post('/search', \App\Http\Controllers\Web\SearchController::class)->name('web.search.index');
+
+/**
+ * route cart index
+ */
+Route::get('/carts', [\App\Http\Controllers\Web\CartController::class, 'index'])->name('web.carts.index')
+    ->middleware('auth');
+
+/**
+ * route cart
+ */
+Route::post('/carts', [\App\Http\Controllers\Web\CartController::class, 'store'])->name('web.carts.store')
+    ->middleware('auth');
+
+/**
+ * route cart delete
+ */
+Route::delete('/carts/{id}', [\App\Http\Controllers\Web\CartController::class, 'destroy'])->name('web.carts.destroy')
+    ->middleware('auth');
+
+/**
+ * route checkouts index
+ */
+Route::get('/checkouts', [\App\Http\Controllers\Web\CheckoutController::class, 'index'])->name('web.checkouts.index')
+    ->middleware('auth');
+
+/**
+ * route checkout store
+ */
+Route::post('/checkouts', [\App\Http\Controllers\Web\CheckoutController::class, 'store'])->name('web.checkouts.store')
+    ->middleware('auth');
+
+/**
+ * route callback
+ */
+Route::post('/callback', \App\Http\Controllers\Web\CallbackController::class)->name('web.callback');

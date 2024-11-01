@@ -18,7 +18,7 @@ class TransactionDetail extends Model
         'transaction_id',
         'product_id',
         'product_image',
-        'variation',
+        'size',
         'price',
         'qty',
     ];

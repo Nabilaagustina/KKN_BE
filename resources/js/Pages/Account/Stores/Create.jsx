@@ -1,4 +1,3 @@
-//import react
 import React, { useState, useRef } from "react";
 
 //import layout
@@ -14,16 +13,16 @@ export default function StoreCreate() {
     //destruct props "errors"
     const { errors } = usePage().props;
 
-    //state
+    //state (use empty string instead of null)
     const [name, setName] = useState("");
-    const [telp, setTelp] = useState(null);
+    const [telp, setTelp] = useState(""); // Set as empty string for controlled input
     const [address, setAddress] = useState("");
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(""); // Set as empty string for controlled input
 
     //reference for file input
     const fileInputRef = useRef(null);
 
-    //method "storeCategory"
+    //method "storeStore"
     const storeStore = async (e) => {
         e.preventDefault();
 
@@ -56,10 +55,10 @@ export default function StoreCreate() {
     const resetForm = () => {
         setName("");
         setAddress("");
-        setImage(null);
-        setTelp(null);
+        setImage(""); // Reset to empty string
+        setTelp(""); // Reset to empty string
         if (fileInputRef.current) {
-            fileInputRef.current.value = null; // Clear the file input
+            fileInputRef.current.value = ""; // Clear the file input
         }
     };
 
@@ -161,7 +160,7 @@ export default function StoreCreate() {
                                         <input
                                             type="number"
                                             className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
-                                            value={telp}
+                                            value={telp} // Controlled input
                                             onChange={(e) =>
                                                 setTelp(e.target.value)
                                             }
@@ -181,7 +180,7 @@ export default function StoreCreate() {
                                         <input
                                             type="text"
                                             className="block w-full mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500"
-                                            value={address}
+                                            value={address} // Controlled input
                                             onChange={(e) =>
                                                 setAddress(e.target.value)
                                             }

@@ -16,6 +16,9 @@ import "slick-carousel/slick/slick.css";
 
 import "slick-carousel/slick/slick-theme.css";
 
+//import component add to cart
+import AddTocart from "./AddToCart";
+
 export default function ProductShow() {
     //destruct props "product"
     const { product } = usePage().props;
@@ -175,6 +178,13 @@ export default function ProductShow() {
                                     }}
                                 />
                             </div>
+
+                            <AddTocart
+                                product_id={product.id}
+                                productImage={productImage}
+                                size={size}
+                                price={price}
+                            />
                         </div>
                     </div>
                 </div>

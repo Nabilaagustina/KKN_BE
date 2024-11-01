@@ -1,11 +1,11 @@
 //import react
-import React from "react";
+import React, { useState } from "react";
 
 //import layout
 import LayoutAccount from "../../../Layouts/Account";
 
 //import Head, usePage, Link
-import { Head, usePage, Link } from "@inertiajs/react";
+import { Head, usePage, Link, router } from "@inertiajs/react";
 
 //import permissions
 import hasAnyPermission from "../../../Utils/Permissions";
@@ -18,6 +18,9 @@ import Search from "../../../Shared/Search";
 
 //import component pagination
 import Pagination from "../../../Shared/Pagination";
+
+//import Sweet Alert
+import Swal from "sweetalert2";
 
 export default function TransactionIndex() {
     //destruct props "transactions"
@@ -69,6 +72,7 @@ export default function TransactionIndex() {
                         <Search URL={"/account/transactions"} />
                     </div>
                 </div>
+
                 <div className="w-full max-w-6xl px-2 mx-auto mt-5">
                     <div className="w-full bg-white border rounded-lg shadow-sm">
                         <div className="p-4 text-white bg-green-500 rounded-t">
@@ -87,6 +91,9 @@ export default function TransactionIndex() {
                                             </th>
                                             <th className="px-4 py-2 text-sm text-left">
                                                 Full Name
+                                            </th>
+                                            <th className="px-4 py-2 text-sm text-left">
+                                                Full Store
                                             </th>
                                             <th className="px-4 py-2 text-sm text-left">
                                                 Grand Total
@@ -117,6 +124,23 @@ export default function TransactionIndex() {
                                                     </td>
                                                     <td className="px-4 py-2 break-words">
                                                         {transaction.user.name}
+                                                    </td>
+                                                    <td className="px-4 py-2 break-words">
+                                                        {transaction?.transaction_details?.map(
+                                                            (
+                                                                detailTrans,
+                                                                index
+                                                            ) => (
+                                                                <li key={index}>
+                                                                    {
+                                                                        detailTrans
+                                                                            ?.product
+                                                                            ?.store
+                                                                            ?.name
+                                                                    }
+                                                                </li>
+                                                            )
+                                                        )}
                                                     </td>
                                                     <td className="px-4 py-2 break-words">
                                                         Rp.{" "}
